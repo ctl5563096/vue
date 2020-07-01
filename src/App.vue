@@ -1,29 +1,19 @@
 <template>
   <div id="app">
-    <!-- <h1 v-if="awesome" @click="test">Vue is awesome!</h1> -->
-    <router-view/>
+    <!-- 路由占位符 -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App',
-  data (){
-    return {
-      awesome :true,
-      flag : false
-    }
-  },
-  methods : {
-  test()
-  {
-    let self = this
-    if(this.flag === false){
-      self.$message.success("成功！");
-      self.flag = true
-    }
+  export default {
+    name: 'app'
   }
-  }
-}
 </script>
 
+<style>
+  html{
+    height: 100%;
+    background: linear-gradient(45deg,rgba(254,172,94,0.5),rgba(199,121,208,0.5),rgba(75,192,200,0.5));
+  }
+</style>
