@@ -6,7 +6,12 @@ import router from './router'
 import globalAPI  from '../global/global';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI,{ size: 'small', zIndex: 3000 })
+import VueWechatTitle from 'vue-wechat-title';
+
+// 引用elementUi
+Vue.use(ElementUI,{ size: 'small', zIndex:  3000 })
+// 引用自定义标题
+Vue.use(VueWechatTitle)
 
 
 Vue.prototype.globalAPI = globalAPI;

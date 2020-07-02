@@ -38,7 +38,7 @@
           <el-button @click="doLogin" style="float:left;margin-left: 100px">
             登录
           </el-button>
-          <el-button @click="doLogin" style="float:right;margin-right: 100px">
+          <el-button @click="doResgiter" style="float:right;margin-right: 100px">
             注册
           </el-button>
         </el-form-item>
@@ -47,19 +47,23 @@
 </template>
 <script>
   export default {
-    //单页面中不支持前面的data:{}方式
     data() {
-      //相当于以前的function data(){},这是es5之前的写法，新版本可以省略掉function
       return{
         user:{
-          username:'zhangsan',
-          password:'123',
+          username:'',
+          password:'',
         }
       }
     },
     methods:{
-      doLogin(){//一点击登录按钮，这个方法就会执行
-        alert(JSON.stringify(this.user))//可以直接把this.user对象传给后端进行校验用户名和密码
+      doLogin(){
+        axios
+      .get('http://localhost/login')
+      .then(response => (this.info = response))
+        alert(JSON.stringify(this.user))
+      },
+      doResgiter(){
+        this.$message.success('注册')
       }
     }
   }

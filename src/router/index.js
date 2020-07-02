@@ -10,7 +10,10 @@ export default new Router({
     {
       path: '/',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: { 
+        title : '后台登录'
+       }
     },
     {
       path: '/test',
