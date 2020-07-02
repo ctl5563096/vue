@@ -7,6 +7,7 @@ import globalAPI  from '../global/global';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueWechatTitle from 'vue-wechat-title';
+import store from './store/index'
 
 // 引用elementUi
 Vue.use(ElementUI,{ size: 'small', zIndex:  3000 })
@@ -23,6 +24,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
