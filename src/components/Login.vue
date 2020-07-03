@@ -63,7 +63,7 @@ export default {
     },
     methods: {
       doLogin() {
-        axios.post('http://localhost:81/login',{
+        axios.post('http://localhost/login',{
             username:this.user.username,
             password:this.user.password
         }).then(
@@ -72,6 +72,11 @@ export default {
               // 登录成功将token存储到vuex 方便全局调用
               if (data.data.status === 200){
                 this.$store.state.token = data.data.data.token
+                this.$message({
+                message  : '登录成功',
+                type     : "success",
+                duration : 1500,
+               })
                 this.$router.push('/test');
               }else {
                this.$message({
