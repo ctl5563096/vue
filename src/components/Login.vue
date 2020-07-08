@@ -1,4 +1,8 @@
 <style>
+  html{
+    height: 100%;
+    background: linear-gradient(45deg,rgba(254,172,94,0.5),rgba(199,121,208,0.5),rgba(75,192,200,0.5));
+  }
   #login_wrap {
     display: flex;
     justify-content: center;
@@ -63,7 +67,7 @@ export default {
     },
     methods: {
       doLogin() {
-        axios.post('http://localhost/login',{
+        axios.post('http://localhost:81/login',{
             username:this.user.username,
             password:this.user.password
         }).then(
@@ -94,3 +98,4 @@ export default {
     }
   }
 </script>
+

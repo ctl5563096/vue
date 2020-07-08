@@ -11,16 +11,16 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login,
-      meta: { 
+      meta: {
         title : '后台登录'
        }
     },
     {
-      path: '/test',
-      name: 'Test',
-      component: () => import('../pages/Test.vue'),
+      path: '/home',
+      name: '',
+      component: () => import('../pages/Home.vue'),
       meta: {
-        word: '新增记录', keepAlive: false
+        title : '主页'
       }
     }
   ]
