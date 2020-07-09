@@ -81,7 +81,7 @@ export default {
                 type     : "success",
                 duration : 1500,
                })
-                this.$router.push('/test');
+                this.$router.push('/home');
               }else {
                this.$message({
                  message  : data.data.messages.error,
