@@ -2,15 +2,19 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
+import Order from '@/pages/order'
+import Error from '../pages/error.vue'
+import Index from '@/pages/index'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/login',
       name: 'Login',
-      component: Login,
+      component: Login, 
       meta: {
         title : '后台登录'
        }
@@ -21,7 +25,23 @@ export default new Router({
       component: () => import('../pages/Home.vue'),
       meta: {
         title : '主页'
+      },
+      children: [    
+      {
+        path:'*',
+        component: Error,
+      },
+      {
+        path: 'index',
+        name: 'Index',
+        component: Index
+      },
+      {
+        path: 'order',
+        name: 'Order',
+        component: Order
       }
+      ]
     }
   ]
 })
