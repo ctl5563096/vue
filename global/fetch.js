@@ -1,26 +1,37 @@
 import axios from 'axios'
-import qs from 'qs'
+import QS from 'qs'
 import { Message } from 'element-ui'
 import router from '../src/router/index'
+import store from '../src/store'
 
-axios.defaults.headers = {
-  'Content-Type': 'application/json'
-}
+// 路由跳转控制
+router.beforeEach((to, from, next) => {
+  next()
+})
+router.afterEach((to, from) => {
 
-axios.defaults.timeout = 10000
-axios.defaults.baseURl = 'http://localhost';
+})
+const service = axios.create({
+  baseURL: 'http://localhost', 
+  timeout: 5000 ,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
 
 // 请求发起前的拦截处理
-axios.interceptors.request.use(config => {
+service.interceptors.request.use(config => {
   const token = store.state.token;
   //  看是否携带token值去请求 
-  token && (config.headers.Authorization = token);        
+  token && (config.headers.Authorization = token);   
+  console.log(token);
   return config;  
 }, error => {
   return Promise.reject(error)
 })
 
-axios.interceptors.response.use(config => {
+service.interceptors.response.use(config => {
   // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
   // 否则的话抛出错误
   if (response.status === 200) {            
@@ -79,7 +90,7 @@ axios.interceptors.response.use(config => {
 // 封装get方法
 export function get(url, params){    
   return new Promise((resolve, reject) =>{        
-      axios.get(url, {            
+    service.get(url, {            
           params: params        
       }).then(res => {
           resolve(res.data);
@@ -90,6 +101,9 @@ export function get(url, params){
 
 // 封装post方法
 export function post(url, params) {
+  console.log(service);
+  service.post(url, QS.stringify(params))
+  return
   return new Promise((resolve, reject) => {
        axios.post(url, QS.stringify(params))
       .then(res => {

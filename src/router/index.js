@@ -26,10 +26,10 @@ export default new Router({
       meta: {
         title : '主页'
       },
-      children: [    
+      children: [  
       {
-        path:'*',
-        component: Error,
+        path:'order',
+        component: Order,
       },
       {
         path: 'index',
@@ -40,8 +40,17 @@ export default new Router({
         path: 'order',
         name: 'Order',
         component: Order
-      }
+      },
+      {
+        path:'*',
+        component:Error
+      },
       ]
+    },
+    {
+      path:'/order',
+      name:'order',
+      component: Order
     }
   ]
 })

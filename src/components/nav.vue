@@ -1,25 +1,27 @@
-<style scoped>
-.el-row{
-  height: 100%;
-}
-.el-menu{
-  border-right:none;
-}
-.el-aside{
-  border-right: 1px solid #f5f1f1;
-}
+<style>
+  .el-menu-vertical-demo{
+        height: 100%;
+  }
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    transition: 1s;
+  }
+  #iscol{
+    display:flex;
+    flex-direction:column-reverse;
+  }
 </style>
 
 <template>
-  <el-aside width="200px">
-    <el-row class="tac">
-      <el-col>
-        <el-menu
+  <el-aside width="initial">
+    <el-menu
           default-active="1"
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose"
+          :collapse="isCollapse"
         >
+          <div id="iscol"><el-button type="primary" icon="el-icon-menu" @click="show()"></el-button></div>
           <el-menu-item index="1" @click="goPage('home')">
             <i class="el-icon-menu"></i>
             <span slot="title">后台中心</span>
@@ -40,19 +42,21 @@
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
-      </el-col>
-    </el-row>
   </el-aside>
 </template>
 
 <script>
+import {getHome} from '../../global/api.js';
 var $this = {};
 export default {
   data() {
-    return {};
+      return {
+        isCollapse: false
+      };
   },
   beforeCreate() {
     $this = this;
+    getHome();
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -64,11 +68,14 @@ export default {
     //跳转到某个导航页
     goPage(link) {
       if (link === "home") {
-        $this.$router.push("order").catch(error => error);
+        $this.$router.push("index").catch(error => error);
       } else if ((link = "order")) {
-          alert(1)
         $this.$router.push("order").catch(error => error);
       }
+    },
+    // 收起菜单
+    show(){
+      $this.isCollapse = !$this.isCollapse
     }
   }
 };
