@@ -4,7 +4,6 @@
   }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
-    transition: 1s;
   }
   #iscol{
     display:flex;
@@ -16,7 +15,10 @@
   <el-aside width="initial">
     <el-menu
           default-active="1"
+          background-color="#3C3C3C"
+          text-color='white'
           class="el-menu-vertical-demo"
+          unique-opened='true'
           @open="handleOpen"
           @close="handleClose"
           :collapse="isCollapse"

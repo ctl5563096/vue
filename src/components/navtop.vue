@@ -12,23 +12,19 @@ section{
   align-items: center;
 }
 
-.logo {
-  width: 200px;
-}
-
 .headerLogo,.logo{
   cursor: pointer;
 }
 
 .el-container{
-    background-color: black;
+    background-color:#3C3C3C;
 }
 </style>
 
 <template>
   <el-container>
     <el-aside width="auto" class="header-logo tap" >
-      <!-- <img class="logo" src="@/assets/imgs/logo.png" alt="Logo" /> -->
+      <h1 class="logo" style="width:200px;font-size: 2em;color:white;text-align:center">后台系统</h1>
     </el-aside>
     <el-aside width="auto" class="header-logo tap" >
       <el-avatar icon="el-icon-user-solid" class="headerLogo"></el-avatar>

@@ -6,7 +6,6 @@
 .el-footer {
   background-color: white;
   box-sizing: border-box;
-  border-bottom: 1px solid #f5f1f1;
 }
 .el-container {
   height: 100%;
