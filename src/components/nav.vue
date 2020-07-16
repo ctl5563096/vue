@@ -22,23 +22,25 @@
           :collapse="isCollapse"
         >
           <div id="iscol"><el-button type="primary" icon="el-icon-menu" @click="show()"></el-button></div>
-          <el-menu-item index="1" @click="goPage('home')">
-            <i class="el-icon-menu"></i>
-            <span slot="title">后台中心</span>
-          </el-menu-item>
-
-          <el-menu-item index="2" @click="goPage('order')">
-            <i class="el-icon-s-order"></i>
-            <span slot="title">订单列表</span>
-          </el-menu-item>
-
-          <el-submenu index="3">
+          <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>测试3</span>
+              <i class="el-icon-user"></i>
+            <span slot="title">用户中心</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="3-1">测试3-1</el-menu-item>
+              <el-menu-item index="1-1" @click="goPage('order')">用户列表</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group>
+              <el-menu-item index="1-2" @click="goPage('order')">用户注册</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title">
+            <i class="el-icon-coordinate"></i>
+            <span slot="title">权限中心</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="1-1" @click="goPage('order')">角色列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

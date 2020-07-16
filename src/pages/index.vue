@@ -2,7 +2,7 @@
 </style>
 <template>
   <div id="user">
-    <h1>222</h1>
+    <el-button>默认按钮</el-button>
   </div>
 </template>
 

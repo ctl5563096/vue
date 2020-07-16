@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Order from '@/pages/order'
 import Error from '../pages/error.vue'
@@ -28,16 +27,16 @@ export default new Router({
       },
       children: [  
       {
-        path:'order',
+        path:'/order',
         component: Order,
       },
       {
-        path: 'index',
+        path: '/index',
         name: 'Index',
         component: Index
       },
       {
-        path: 'order',
+        path: '/order',
         name: 'Order',
         component: Order
       },
@@ -47,10 +46,5 @@ export default new Router({
       },
       ]
     },
-    {
-      path:'/order',
-      name:'order',
-      component: Order
-    }
   ]
 })

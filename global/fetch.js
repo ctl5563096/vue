@@ -22,21 +22,42 @@ const service = axios.create({
 
 // 请求发起前的拦截处理
 service.interceptors.request.use(config => {
+  // 刷新页面会把store里面的token刷掉
   const token = store.state.token;
   //  看是否携带token值去请求 
-  token && (config.headers.Authorization = token);   
-  console.log(token);
+  if(token){
+    config.headers.Authorization = 'Bearer ' + token
+  }else{
+    // 处理无token情况 重定向到登录页面
+    Message({
+      message : 'token过期，请重新登录',
+      type: 'error',
+      duration: 3 * 1000
+    })
+    router.replace({                        
+      path: '/login',                        
+      query: { 
+          redirect: router.currentRoute.fullPath 
+      }
+    });
+  }
   return config;  
 }, error => {
   return Promise.reject(error)
 })
 
-service.interceptors.response.use(config => {
+service.interceptors.response.use(response  => {
   // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
   // 否则的话抛出错误
-  if (response.status === 200) {            
+  if (response.data.status === 200) {      
       return Promise.resolve(response);        
-  } else {            
+  } else {        
+      // 返回业务错误状态信息    
+      Message({
+        message : response.data.msg,
+        type: 'error',
+        duration: 3 * 1000
+      })
       return Promise.reject(response);        
   }
 }, error => {
@@ -57,7 +78,6 @@ service.interceptors.response.use(config => {
           type: 'error',
           duration: 3 * 1000
         })
-        localStorage.removeItem('token');
         store.state.token = '';
         setTimeout(() => {                        
           router.replace({                            
@@ -101,15 +121,12 @@ export function get(url, params){
 
 // 封装post方法
 export function post(url, params) {
-  console.log(service);
-  service.post(url, QS.stringify(params))
-  return
   return new Promise((resolve, reject) => {
-       axios.post(url, QS.stringify(params))
+    service.post(url, QS.stringify(params))
       .then(res => {
           resolve(res.data);
       })
       .catch(err =>{
-          reject(err.data)
+          reject(err)
       })
 })};
