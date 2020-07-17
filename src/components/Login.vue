@@ -66,7 +66,7 @@ export default {
     },
     methods: {
       doLogin() {
-        axios.post('http://localhost:81/login',{
+        axios.post('http://localhost/login',{
             username:this.user.username,
             password:this.user.password
         }).then(

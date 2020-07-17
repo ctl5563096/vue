@@ -4,6 +4,7 @@ import Login from '@/components/Login'
 import Order from '@/pages/order'
 import Error from '../pages/error.vue'
 import Index from '@/pages/index'
+import Personal from '@/components/personal'
 
 Vue.use(Router)
 
@@ -39,6 +40,11 @@ export default new Router({
         path: '/order',
         name: 'Order',
         component: Order
+      },
+      {
+        path: '/personal',
+        name: 'personal',
+        component: Personal
       },
       {
         path:'*',

@@ -18,7 +18,7 @@
           background-color="#3C3C3C"
           text-color='white'
           class="el-menu-vertical-demo"
-          unique-opened='true'
+          :unique-opened="is_unique"
           @open="handleOpen"
           @close="handleClose"
           :collapse="isCollapse"
@@ -55,7 +55,8 @@ var $this = {};
 export default {
   data() {
       return {
-        isCollapse: false
+        isCollapse: false,
+        is_unique:  true
       };
   },
   beforeCreate() {
