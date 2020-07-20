@@ -74,13 +74,15 @@ export default {
           (data) => {
               // 登录成功将token存储到vuex 方便全局调用
               if (data.data.code === 200){
-                this.$store.state.token = data.data.data.token
+                this.$store.commit('setToken',data.data.data.token)
                 this.$message({
                 message  : '登录成功',
                 type     : "success",
                 duration : 1500,
                })
-                this.$router.push('/home').catch(err => {});
+                this.$router.push('/home').catch(err => {
+                  console.log(err);
+                });
               }else {
                this.$message({
                  message  : data.data.msg,
