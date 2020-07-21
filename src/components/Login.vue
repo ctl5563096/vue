@@ -74,7 +74,10 @@ export default {
           (data) => {
               // 登录成功将token存储到vuex 方便全局调用
               if (data.data.code === 200){
+                // 存储token
                 this.$store.commit('setToken',data.data.data.token)
+                // 存储用户信息
+                this.$store.commit('setUserInfo',data.data.data.userInfo)
                 this.$message({
                 message  : '登录成功',
                 type     : "success",

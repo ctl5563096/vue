@@ -50,18 +50,22 @@
 </template>
 
 <script>
-import {getHome} from '../../global/api.js';
+import {getHome,getUserInfo} from '../../global/api.js';
 var $this = {};
 export default {
   data() {
       return {
         isCollapse: false,
-        is_unique:  true
+        is_unique:  true,
+        userInfo:'',
       };
   },
   beforeCreate() {
     $this = this;
-    getHome();
+  },
+  created(){
+  },
+  mounted(){
   },
   methods: {
     handleOpen(key, keyPath) {

@@ -4,13 +4,6 @@ import { Message } from 'element-ui'
 import router from '../src/router/index'
 import store from '../src/store'
 
-// 路由跳转控制
-router.beforeEach((to, from, next) => {
-  next()
-})
-router.afterEach((to, from) => {
-
-})
 const service = axios.create({
   baseURL: 'http://localhost', 
   timeout: 5000 ,
@@ -26,6 +19,7 @@ service.interceptors.request.use(config => {
   const token = store.state.token;
   //  看是否携带token值去请求 
   if(token){
+    store.commit('setLoading',true)
     config.headers.Authorization = 'Bearer ' + token
   }else{
     // 处理无token情况 重定向到登录页面
@@ -49,8 +43,18 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response  => {
   // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据     
   // 否则的话抛出错误
-  if (response.data.status === 200) {      
-      return Promise.resolve(response);        
+  if (response.status === 200) {  
+    // 返回业务错误状态码
+    if(response.data.code !== 200){
+      Message({
+        message : response.data.msg,
+        type: 'error',
+        duration: 3 * 1000
+      })
+    }  
+    console.log(store.state.loading);
+    store.commit('setLoading',true)
+    return Promise.resolve(response);        
   } else {        
       // 返回业务错误状态信息    
       Message({
@@ -129,4 +133,29 @@ export function post(url, params) {
       .catch(err =>{
           reject(err)
       })
+})};
+
+
+// 封装delete方法
+export function deletes(url, params){    
+  return new Promise((resolve, reject) =>{        
+    service.delete(url, {            
+          params: params        
+      }).then(res => {
+          resolve(res.data);
+      }).catch(err =>{
+          reject(err.data)        
+  })    
+})};
+
+// 封装delete方法
+export function put(url, params){    
+  return new Promise((resolve, reject) =>{        
+    service.delete(url, {            
+          params: params        
+      }).then(res => {
+          resolve(res.data);
+      }).catch(err =>{
+          reject(err.data)        
+  })    
 })};

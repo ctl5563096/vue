@@ -14,9 +14,24 @@ Vue.use(ElementUI,{ size: 'small', zIndex:  3000 })
 // 引用自定义标题
 Vue.use(VueWechatTitle)
 
-
 Vue.prototype.globalAPI = globalAPI;
 Vue.config.productionTip = false
+
+router.beforeEach((to, from, next) => {
+    // 路由守卫判断是否存在token 如果不存在就跳转到登录页面
+    if(!store.state.token && to.name !== 'Login'){
+      ElementUI.Message({
+        message : 'token过期，请重新登录',
+        type: 'error',
+        duration: 3 * 1000
+      })
+      next('/login');
+      return
+    } else{
+      next();
+    }
+  }
+)
 
 
 
