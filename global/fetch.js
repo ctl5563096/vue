@@ -126,7 +126,7 @@ export function get(url, params){
 // 封装post方法
 export function post(url, params) {
   return new Promise((resolve, reject) => {
-    service.post(url, QS.stringify(params))
+    service.post(url,params)
       .then(res => {
           resolve(res.data);
       })
@@ -151,11 +151,11 @@ export function deletes(url, params){
 // 封装delete方法
 export function put(url, params){    
   return new Promise((resolve, reject) =>{        
-    service.delete(url, {            
-          params: params        
-      }).then(res => {
-          resolve(res.data);
-      }).catch(err =>{
-          reject(err.data)        
-  })    
+    service.put(url, params)
+    .then(res => {
+        resolve(res.data);
+    })
+    .catch(err =>{
+        reject(err)
+    })   
 })};

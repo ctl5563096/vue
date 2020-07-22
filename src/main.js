@@ -18,6 +18,11 @@ Vue.prototype.globalAPI = globalAPI;
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+    // 从url访问直接重定向到登录页面
+    if(to.name === null){
+      next('/login');
+      return
+    }
     // 路由守卫判断是否存在token 如果不存在就跳转到登录页面
     if(!store.state.token && to.name !== 'Login'){
       ElementUI.Message({
