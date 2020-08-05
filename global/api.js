@@ -17,4 +17,10 @@ const updateUserInfo=(params)=>{
     return put('/user/updateUserInfo',params)
 }
 
-export{getHome,getUserInfo,updateUserInfo}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+// 获权限菜单
+const getMenuById=(params)=>{
+    return get('/menu',params)
+}
+
+
+export{getHome,getUserInfo,updateUserInfo,getMenuById}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
