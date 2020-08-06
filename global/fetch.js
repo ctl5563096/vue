@@ -52,7 +52,6 @@ service.interceptors.response.use(response  => {
         duration: 3 * 1000
       })
     }  
-    console.log(store.state.loading);
     store.commit('setLoading',true)
     return Promise.resolve(response);        
   } else {        
@@ -148,7 +147,7 @@ export function deletes(url, params){
   })    
 })};
 
-// 封装delete方法
+// 封装put方法
 export function put(url, params){    
   return new Promise((resolve, reject) =>{        
     service.put(url, params)

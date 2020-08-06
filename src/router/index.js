@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
 import Order from '@/pages/order'
-import Error from '../pages/error.vue'
+import Error from '@/components/error'
 import Index from '@/pages/index'
 import Personal from '@/components/personal'
 
@@ -29,22 +29,27 @@ export default new Router({
       children: [  
       {
         path:'/order',
+        name: 'Order',
         component: Order,
+        meta: {
+          title : '订单页'
+        },
       },
       {
         path: '/index',
         name: 'Index',
-        component: Index
-      },
-      {
-        path: '/order',
-        name: 'Order',
-        component: Order
+        component: Index,
+        meta: {
+          title : '主页'
+        },
       },
       {
         path: '/personal',
         name: 'personal',
-        component: Personal
+        component: Personal,
+        meta: {
+          title : '个人治疗页'
+        },
       },
       {
         path:'*',

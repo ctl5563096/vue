@@ -54,7 +54,9 @@
 </template>
 <script>
 import axios from "axios";
-import { Message } from 'element-ui'
+import { Message } from 'element-ui';
+import {getMenuById} from '../../global/api.js';
+var $this = {};
 export default {
     data() {
       return {
@@ -64,28 +66,37 @@ export default {
         }
       }
     },
+    beforeCreate() {
+      $this = this;
+    },
     methods: {
       doLogin() {
         axios.post('http://localhost/login',{
             username:this.user.username,
             password:this.user.password
         }).then(
-
           (data) => {
+                      console.log($this)
               // 登录成功将token存储到vuex 方便全局调用
               if (data.data.code === 200){
                 // 存储token
                 this.$store.commit('setToken',data.data.data.token)
                 // 存储用户信息
                 this.$store.commit('setUserInfo',data.data.data.userInfo)
+                // 顺便把菜单栏的请求到Vuex里面方便调用
+                getMenuById().then(res => {
+                    this.$store.commit('setMenuLists' ,res.data);
+                });
                 this.$message({
                 message  : '登录成功',
                 type     : "success",
                 duration : 1500,
+                onClose: function (){
+                  $this.$router.push('index').catch(err => {
+                    console.log(err);
+                  });
+                }
                })
-                this.$router.push('/home').catch(err => {
-                  console.log(err);
-                });
               }else {
                this.$message({
                  message  : data.data.msg,

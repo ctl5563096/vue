@@ -4,7 +4,13 @@ import createPersistedState from 'vuex-persistedstate'
 
 //挂载Vuex
 Vue.use(Vuex)
-
+const stateInit = {
+  token:'',
+  userInfo:'',
+  userId:'',
+  loading:true,
+  menuLists:[] 
+};
 //创建VueX对象
 const store = new Vuex.Store({
   state:{
@@ -12,10 +18,16 @@ const store = new Vuex.Store({
     token:'',
     userInfo:'',
     userId:'',
-    loading:true
+    loading:true,
+    menuLists:[] 
   },
   mutations: {
-    // 改变state里面的值一定要通过mutations 不然不经过vuex的生命周期无法记录
+    // 改变state里面的值一定要通过mutations 不然不经过vuex的生命周期无法记录、
+    // 清空state
+    reset(state){
+      // 清空state
+      Object.assign(state,stateInit)
+    },
     // 记录token
     setToken (state,token) {
       state.token = token
@@ -29,6 +41,10 @@ const store = new Vuex.Store({
     // 更改loading图标
     setLoading(state,loading){
       state.loading = loading
+    },
+    // 设置菜单
+    setMenuLists(state,menuLists){
+      state.menuLists = menuLists
     }
   },
   plugins:[createPersistedState({ storage: window.sessionStorage })]
