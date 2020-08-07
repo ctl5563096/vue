@@ -91,7 +91,6 @@ export default {
     },
     //跳转到某个导航页
     goPage(link) {
-      alert(link);
       $this.$router.push(link).catch(error => error);
     },
     // 收起菜单

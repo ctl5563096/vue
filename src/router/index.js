@@ -5,6 +5,7 @@ import Order from '@/pages/order'
 import Error from '@/components/error'
 import Index from '@/pages/index'
 import Personal from '@/components/personal'
+import Rule from '@/pages/role/role'
 
 Vue.use(Router)
 
@@ -48,7 +49,15 @@ export default new Router({
         name: 'personal',
         component: Personal,
         meta: {
-          title : '个人治疗页'
+          title : '个人资料页'
+        },
+      },
+      {
+        path: '/ruleList',
+        name: 'rule',
+        component: Rule,
+        meta: {
+          title : '权限控制'
         },
       },
       {

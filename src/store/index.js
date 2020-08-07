@@ -4,6 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 //挂载Vuex
 Vue.use(Vuex)
+// 初始化stateInit 便于销毁vuex时候使用
 const stateInit = {
   token:'',
   userInfo:'',
