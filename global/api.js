@@ -22,5 +22,24 @@ const getMenuById=(params)=>{
     return get('/menu',params)
 }
 
+// 根据角色ID获取权限
+const getRuleByRole=(id)=>{
+    return get('/ruleById?id='+id)
+}
 
-export{getHome,getUserInfo,updateUserInfo,getMenuById}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+// 获取所有的角色信息
+const getRole=(params)=>{
+    return get('/role',params)
+}
+
+// 获取所有权限信息
+const getRule=(params)=>{
+    return get('/rule')
+}
+
+// 修改角色权限
+const changeRoleRule=(params)=>{
+    return put('/rule',params)
+}
+
+export{getHome,getUserInfo,updateUserInfo,getMenuById,getRule,getRole,getRuleByRole,changeRoleRule}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
