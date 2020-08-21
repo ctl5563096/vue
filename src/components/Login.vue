@@ -42,7 +42,7 @@
         <el-input v-model="user.password" show-password placeholder="请输入密码"></el-input>
       </el-form-item>
       <el-form-item style="margin-top: 50px">
-        <el-button @click="doLogin" style="float:left;margin-left: 100px">
+        <el-button @click="doLogin" style="float:left;margin-left: 100px" :loading="button">
           登录
         </el-button>
         <el-button @click="doResgiter" style="float:right;margin-right: 100px">
@@ -63,7 +63,8 @@ export default {
         user: {
           username: '',
           password: '',
-        }
+        },
+        button:false
       }
     },
     beforeCreate() {
@@ -71,12 +72,12 @@ export default {
     },
     methods: {
       doLogin() {
+        $this.button = true
         axios.post('http://localhost/login',{
             username:this.user.username,
-            password:this.user.password
+            password:this.user.password,
         }).then(
           (data) => {
-                      console.log($this)
               // 登录成功将token存储到vuex 方便全局调用
               if (data.data.code === 200){
                 // 存储token
@@ -92,6 +93,7 @@ export default {
                 type     : "success",
                 duration : 1500,
                 onClose: function (){
+                  $this.button = false
                   $this.$router.push('index').catch(err => {
                     console.log(err);
                   });

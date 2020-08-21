@@ -47,4 +47,19 @@ const delRule=(id)=>{
     return deletes('/rule?id=' + id);
 }
 
-export{getHome,getUserInfo,updateUserInfo,getMenuById,getRule,getRole,getRuleByRole,changeRoleRule,delRule}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+// 增加权限
+const addRule=(params)=>{
+    return post('/rule',params);
+}
+
+// 获取单个权限详情
+const getRuleDetail=(id)=>{
+    return get('/ruleDetail?id='+id);
+}
+
+// 修改单个权限详情
+const editRule=(params)=>{
+    return put('/editRule',params);
+}
+
+export{getHome,getUserInfo,updateUserInfo,getMenuById,getRule,getRole,getRuleByRole,changeRoleRule,delRule,addRule,getRuleDetail,editRule}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             

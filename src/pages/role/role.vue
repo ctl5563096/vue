@@ -9,6 +9,9 @@
   .role .el-row{
       margin-bottom: 10px;
   }
+  .role .rule_input_width{
+    width: 300px
+  }
 </style>
 <template>
 <div class="role">
@@ -41,30 +44,50 @@
       </span>       
     </span>
 </el-tree>
-<el-dialog title="" :visible.sync="modalBool">
-  <el-form :model="form">
-    <el-form-item label="活动名称" :label-width="formLabelWidth">
-      <el-input v-model="form.name" autocomplete="off"></el-input>
+<el-dialog :title="title" :visible.sync="modalBool" @close="reset">
+  <el-form :model="form" :rules="rules" ref="ruleForm">
+    <el-form-item label="权限名称" :label-width="formLabelWidth" prop="name">
+      <el-input v-model="form.name" autocomplete="off" type="text" class="rule_input_width"></el-input>
     </el-form-item>
-    <el-form-item label="活动区域" :label-width="formLabelWidth">
-      <el-select v-model="form.region" placeholder="请选择活动区域">
-        <el-option label="区域一" value="shanghai"></el-option>
-        <el-option label="区域二" value="beijing"></el-option>
-      </el-select>
+    <el-form-item label="是否顶级权限" :label-width="formLabelWidth" prop="is_top">
+      <el-radio-group v-model="form.is_top" @change="changePid">
+        <el-radio label="1">否</el-radio>
+        <el-radio label="2">是</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item label="是否为菜单" :label-width="formLabelWidth" prop="is_menu">
+      <el-radio-group v-model="form.is_menu" @change="showInput">
+        <el-radio label="0">否</el-radio>
+        <el-radio label="1">是</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item label="页面路径" :label-width="formLabelWidth" v-show="is_show_input" prop="url">
+      <el-input v-model="form.url" autocomplete="off" type="text" class="rule_input_width"></el-input>
+    </el-form-item>
+        <el-form-item label="icon图标" :label-width="formLabelWidth" prop="icon">
+      <el-input v-model="form.icon" autocomplete="off" type="text" class="rule_input_width"></el-input>
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="modalBool = false">取 消</el-button>
-    <el-button type="primary" @click="modalBool = false">确 定</el-button>
+    <el-button type="primary" @click="addNewRule('ruleForm')" :loading="button">确 定</el-button>
   </div>
 </el-dialog>
 </div>
 </template>
 <script>
-import {getRuleByRole,getRole,getRule,changeRoleRule,delRule} from '../../../global/api.js';
+import {getRuleByRole,getRole,getRule,changeRoleRule,delRule,addRule,getRuleDetail,editRule} from '../../../global/api.js';
 var $this = {};
   export default {
     data() {
+      // 验证url输入框
+      let validateUrl = (rule, value, callback) => {
+        if (parseInt(this.form.is_menu) == 2 && value === '') {
+          callback(new Error('此为菜单栏,请输入页面url'));
+        } else {
+          callback();
+        }
+      };
       return {
         tree:[],
         props: {
@@ -79,36 +102,35 @@ var $this = {};
         button: false,
         systemNodeFlag: false,
         modalBool:false,
-              gridData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
         dialogTableVisible: false,
         dialogFormVisible: false,
         form: {
           name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          url: '',
+          is_menu:'0',
+          icon:"",
+          is_top:'1',
+          pid: 0,
         },
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+        formInputWidth: '300px',
+        is_show_input:false,
+        node:{},
+        rules:{
+          name: [
+            { required: true, message: '请输入权限名称', trigger: 'blur' },
+          ],
+          url: [
+            {validator: validateUrl, trigger: 'blur'}
+          ],
+          is_show: [],
+          is_top:  [],
+          icon: []
+        },
+        topArr:[],
+        title:'添加权限',
+        status:'',
+        ruleId:''
     }},
     beforeCreate() {
         $this = this;
@@ -121,6 +143,10 @@ var $this = {};
       // 获取所有的权限
       getRule().then(res => {
         $this.tree = res.data
+        // 把所有的顶级菜单放进一个数组,方便下面判断是否显示添加图标
+        res.data.forEach(function(item,index){ 
+            $this.topArr.push(parseInt(item.id))
+        })
       })
   },
     methods: {
@@ -184,7 +210,27 @@ var $this = {};
       },
       // 修改权限
       editRule(e){
-        alert(e.data.id)
+        getRuleDetail(e.data.id).then(res => {
+            if(res.code === 200){
+              $this.title = "修改权限"
+              $this.modalBool = true
+              $this.status = 'edit'
+              $this.form.name = res.data[0].rule_name
+              $this.ruleId = res.data[0].id
+              $this.form.pid = res.data[0].pid
+              $this.form.is_menu = res.data[0].is_menu
+              $this.form.icon = res.data[0].icon
+              $this.form.url = res.data[0].url
+              if(res.data[0].pid == 0){
+                $this.form.is_top = '2'
+              } else{
+                $this.form.is_top = '1'
+              }
+              if(res.data[0].is_menu == 1){
+                $this.is_show_input = true
+              }
+            }
+        })
       },
       // 删除权限
       delRule(e){
@@ -197,16 +243,107 @@ var $this = {};
       },
       // 增加权限
       addRule(e){
-        alert(e.data.id)
+        $this.modalBool = true
+        $this.title = '添加权限'
+        $this.status = 'add'
+        $this.node = e
+        if (parseInt($this.form.is_top) === 1) {
+          $this.form.pid = e.data.id
+        }
       },
       // 展示添加图标
       showIcon(e){
-        console.log(e.data);
-        if(e.data.childNode !== undefined || parseInt(e.data.pid) === 0){
+        if(parseInt(e.data.pid) === 0 || $this.topArr.includes(parseInt(e.data.pid))){
           return true
         }else{
           return false
         }
+      },
+      // 判断是否展示url输入框
+      showInput(){
+          if ($this.form.is_menu == 0) {
+            $this.is_show_input = false
+            $this.form.url = ''
+          }else if ($this.form.is_menu == 1) {
+             $this.is_show_input = true
+             $this.form.url = ''
+          }
+      },
+      // 确定关闭对话框回调
+      addNewRule(formName){
+          // 判断是添加还是修改
+          if ($this.status === 'add') {
+            $this.$refs[formName].validate((valid) => {
+            if (valid) {
+              // 删除不必要参数
+                delete $this.form.is_top
+                addRule($this.form).then(res => {
+                  if (parseInt(res.code) === 200) {
+                      getRule().then(res => {
+                      $this.button = true
+                      $this.tree = res.data
+                      $this.modalBool = false
+                    })
+                  }
+                }
+              )
+            } else {
+                $this.$message({
+                  type: 'error',
+                  message: '提交失败,请修改',
+                  duration: 1500
+                })
+            }
+          });
+        }else if ($this.status === 'edit') {
+          if($this.ruleId === ''){
+            $this.$message({
+              type: 'error',
+              message: '系统错误，请联系管理员',
+              duration: 1500
+            })
+            return false
+          }
+           $this.$refs[formName].validate((valid) => {
+            if (valid) {
+              // 删除不必要参数
+                delete $this.form.is_top
+                let params = $this.form
+                params.id = $this.ruleId
+                editRule(params).then(res => {
+                  if (parseInt(res.code) === 200) {
+                      getRule().then(res => {
+                      $this.button = true
+                      $this.tree = res.data
+                      $this.modalBool = false
+                    })
+                  }
+                }
+              )
+            } else {
+                $this.$message({
+                  type: 'error',
+                  message: '提交失败,请修改',
+                  duration: 1500
+                })
+            }
+          });
+        }
+      },
+      // 防止改变顶级菜单
+      changePid(){
+        // 判断是否为顶级菜单
+        if(parseInt($this.form.is_top)  === 1){
+          $this.form.pid = $this.node.data.id
+        }else if (parseInt($this.form.is_top) === 2){
+          $this.form.pid = 0
+        }
+      },
+      // 关闭dialog对话框时触发事件
+      reset(){
+        $this.$refs.ruleForm.resetFields()
+        $this.status = ''
+        $this.title = '添加权限'
       }
     }
   };
