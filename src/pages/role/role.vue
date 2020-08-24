@@ -67,6 +67,12 @@
         <el-form-item label="icon图标" :label-width="formLabelWidth" prop="icon">
       <el-input v-model="form.icon" autocomplete="off" type="text" class="rule_input_width"></el-input>
     </el-form-item>
+      <el-form-item label="控制器" :label-width="formLabelWidth" prop="controller">
+      <el-input v-model="form.controller" autocomplete="off" type="text" class="rule_input_width"></el-input>
+    </el-form-item>
+    <el-form-item label="方法" :label-width="formLabelWidth" prop="action">
+      <el-input v-model="form.action" autocomplete="off" type="text" class="rule_input_width"></el-input>
+    </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="modalBool = false">取 消</el-button>
@@ -111,6 +117,18 @@ var $this = {};
           icon:"",
           is_top:'1',
           pid: 0,
+          controller:'',
+          action:''
+        },
+        addForm: {
+          name: '',
+          url: '',
+          is_menu:'0',
+          icon:"",
+          is_top:'1',
+          pid: 0,
+          controller:'',
+          action:''
         },
         formLabelWidth: '120px',
         formInputWidth: '300px',
@@ -125,7 +143,9 @@ var $this = {};
           ],
           is_show: [],
           is_top:  [],
-          icon: []
+          icon: [],
+          controller:[],
+          action:[]
         },
         topArr:[],
         title:'添加权限',
@@ -243,6 +263,7 @@ var $this = {};
       },
       // 增加权限
       addRule(e){
+        $this.form = $this.addForm
         $this.modalBool = true
         $this.title = '添加权限'
         $this.status = 'add'
@@ -313,7 +334,11 @@ var $this = {};
                 editRule(params).then(res => {
                   if (parseInt(res.code) === 200) {
                       getRule().then(res => {
-                      $this.button = true
+                      $this.$message({
+                        type: 'success',
+                        message: '修改成功',
+                        duration: 1500
+                      })
                       $this.tree = res.data
                       $this.modalBool = false
                     })
@@ -344,6 +369,7 @@ var $this = {};
         $this.$refs.ruleForm.resetFields()
         $this.status = ''
         $this.title = '添加权限'
+        $this.is_show_input = false
       }
     }
   };
