@@ -68,13 +68,20 @@ service.interceptors.response.use(response  => {
   // return Promise.reject(error);
   if (error.response.status){
     switch (error.response.status) {
-      case 401:
+      case 400:
         router.replace({                        
           path: '/login',                        
           query: { 
               redirect: router.currentRoute.fullPath 
           }
         });
+        break;
+      case 401:
+        Message({
+          message : '用户没有权限,请联系管理员',
+          type: 'error',
+          duration: 3 * 1000
+        }) 
         break;
       case 403:
         Message({
