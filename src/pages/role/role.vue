@@ -262,7 +262,28 @@ export default {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'info'
-            }).then(() => {})
+            }).then(() => {
+                console.log(e.data.id);
+                delRule(e.data.id).then(res => {
+                    if(res.code === 200){
+                        $this.$message({
+                            type: 'success',
+                            message: '删除成功',
+                            duration: 1500
+                        })
+                        getRule().then(res => {
+                                    $this.tree = res.data
+                                    $this.modalBool = false
+                        })
+                    }else{
+                            $this.$message({
+                            type: 'error',
+                            message: '删除失败',
+                            duration: 1500
+                        })
+                    }
+                })
+            })
         },
         // 增加权限
         addRule(e) {
