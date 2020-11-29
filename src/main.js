@@ -9,11 +9,15 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueWechatTitle from 'vue-wechat-title';
 import store from './store/index'
 
+// console.log(globalAPI);
+
 // 引用elementUi
 Vue.use(ElementUI,{ size: 'small', zIndex:  3000 })
 // 引用自定义标题
 Vue.use(VueWechatTitle)
 
+// 全局自定义常量
+Vue.prototype.globalBaseUrl = globalAPI.apiBaseUrl;
 Vue.prototype.globalAPI = globalAPI;
 Vue.config.productionTip = false
 

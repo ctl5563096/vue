@@ -66,7 +66,7 @@ var $this = {};
 export default {
   data() {
     return {
-      logo: require('../assets/blog.jpg'),
+      logo: $this.globalBaseUrl + '/' + JSON.parse(this.$store.state.userInfo) .avatar,
       activeIndex: "1",
     };
   },

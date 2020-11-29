@@ -34,7 +34,7 @@
         </span>
     </el-tree>
     <el-dialog :title="title" :visible.sync="modalBool" @close="reset">
-        <el-form :model="form" :rules="rules" ref="ruleForm">
+        <el-form :model="form" :rules="rules" ref="ruleForm" :status-icon="true">
             <el-form-item label="权限名称" :label-width="formLabelWidth" prop="name">
                 <el-input v-model="form.name" autocomplete="off" type="text" class="rule_input_width"></el-input>
             </el-form-item>
@@ -62,6 +62,9 @@
             <el-form-item label="方法" :label-width="formLabelWidth" prop="action">
                 <el-input v-model="form.action" autocomplete="off" type="text" class="rule_input_width"></el-input>
             </el-form-item>
+            <el-form-item label="排序" :label-width="formLabelWidth" prop="sort">
+                <el-input v-model="form.sort" autocomplete="off" type="text" class="rule_input_width"></el-input>
+            </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="modalBool = false">取 消</el-button>
@@ -75,7 +78,7 @@
 import {
     getRuleByRole,
     getRole,
-    getRule,
+    getRuleBack,
     changeRoleRule,
     delRule,
     addRule,
@@ -117,7 +120,8 @@ export default {
                 is_top: '1',
                 pid: 0,
                 controller: '',
-                action: ''
+                action: '',
+                sort:0
             },
             addForm: {
                 name: '',
@@ -127,7 +131,8 @@ export default {
                 is_top: '1',
                 pid: 0,
                 controller: '',
-                action: ''
+                action: '',
+                sort:0
             },
             formLabelWidth: '120px',
             formInputWidth: '300px',
@@ -147,7 +152,10 @@ export default {
                 is_top: [],
                 icon: [],
                 controller: [],
-                action: []
+                action: [],
+                sort:[
+                    { required: true, message: '排序不能为空'}
+                ]
             },
             topArr: [],
             title: '添加权限',
@@ -164,7 +172,7 @@ export default {
             $this.options = res.data
         });
         // 获取所有的权限
-        getRule().then(res => {
+        getRuleBack().then(res => {
             $this.tree = res.data
             // 把所有的顶级菜单放进一个数组,方便下面判断是否显示添加图标
             res.data.forEach(function (item, index) {
@@ -175,6 +183,7 @@ export default {
     methods: {
         // 获取角色的权限
         roleRule() {
+            this.$refs.tree.setCheckedKeys([]);
             getRuleByRole($this.roleValue).then(res => {
                 $this.systemNodeFlag = true
                 let ruleArr = [];
@@ -214,7 +223,7 @@ export default {
                     $this.button = false
                     if (res.code === 200) {
                         this.$message({
-                            type: 'esuccess',
+                            type: 'success',
                             message: '修改成功',
                             duration: 1500
                         })
@@ -245,6 +254,7 @@ export default {
                     $this.form.url = res.data[0].url
                     $this.form.action = res.data[0].action
                     $this.form.controller = res.data[0].controller
+                    $this.form.sort = parseInt(res.data[0].sort)
                     if (res.data[0].pid == 0) {
                         $this.form.is_top = '2'
                     } else {
@@ -271,8 +281,15 @@ export default {
                             message: '删除成功',
                             duration: 1500
                         })
-                        getRule().then(res => {
+                        getRuleBack().then(res => {
+                                    $this.systemNodeFlag = true
                                     $this.tree = res.data
+                                    this.$refs.tree.setCheckedKeys([]);
+                                    // 需要更新dom
+                                    this.$nextTick(() => {
+                                        this.$refs.tree.setCheckedKeys($this.selected) //给树节点赋值
+                                        this.systemNodeFlag = false //重点： 赋值完成后 设置为false
+                                    })
                                     $this.modalBool = false
                         })
                     }else{
@@ -324,8 +341,15 @@ export default {
                         delete $this.form.is_top
                         addRule($this.form).then(res => {
                             if (parseInt(res.code) === 200) {
-                                getRule().then(res => {
+                                getRuleBack().then(res => {
+                                    $this.systemNodeFlag = true
                                     $this.tree = res.data
+                                    this.$refs.tree.setCheckedKeys([]);
+                                    // 需要更新dom
+                                    this.$nextTick(() => {
+                                        this.$refs.tree.setCheckedKeys($this.selected) //给树节点赋值
+                                        this.systemNodeFlag = false //重点： 赋值完成后 设置为false
+                                    })
                                     $this.modalBool = false
                                 })
                             }
@@ -355,13 +379,20 @@ export default {
                         params.id = $this.ruleId
                         editRule(params).then(res => {
                             if (parseInt(res.code) === 200) {
-                                getRule().then(res => {
+                                getRuleBack().then(res => {
                                     $this.$message({
                                         type: 'success',
                                         message: '修改成功',
                                         duration: 1500
                                     })
+                                    $this.systemNodeFlag = true
                                     $this.tree = res.data
+                                    this.$refs.tree.setCheckedKeys([]);
+                                    // 需要更新dom
+                                    this.$nextTick(() => {
+                                        this.$refs.tree.setCheckedKeys($this.selected) //给树节点赋值
+                                        this.systemNodeFlag = false //重点： 赋值完成后 设置为false
+                                    })
                                     $this.modalBool = false
                                 })
                             }
@@ -387,6 +418,7 @@ export default {
         },
         // 关闭dialog对话框时触发事件
         reset() {
+            console.log(1111);
             $this.$refs.ruleForm.resetFields()
             $this.status = ''
             $this.title = '添加权限'

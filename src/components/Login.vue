@@ -85,7 +85,7 @@ export default {
                 // 存储用户信息
                 this.$store.commit('setUserInfo',data.data.data.userInfo)
                 // 顺便把菜单栏的请求到Vuex里面方便调用
-                getMenuById().then(res => {
+                getMenuById(parseInt(this.$store.state.userId)).then(res => {
                     this.$store.commit('setMenuLists' ,res.data);
                 });
                 this.$message({
@@ -105,6 +105,7 @@ export default {
                  type     : "error",
                  duration : 1500,
                })
+               $this.button = false
               }
           }
         )

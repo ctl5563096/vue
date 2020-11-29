@@ -6,6 +6,8 @@ import Error from '@/components/error'
 import Index from '@/pages/index'
 import Personal from '@/components/personal'
 import Rule from '@/pages/role/role'
+import User from '@/pages/user/list'
+import House from '@/pages/data/house'
 
 Vue.use(Router)
 
@@ -58,6 +60,22 @@ export default new Router({
         component: Rule,
         meta: {
           title : '权限控制'
+        },
+      },
+      {
+        path: '/userList',
+        name: 'user',
+        component: User,
+        meta: {
+          title : '用户列表'
+        },
+      },
+      {
+        path: '/houseList',
+        name: 'house',
+        component: House,
+        meta: {
+          title : '房屋列表'
         },
       },
       {

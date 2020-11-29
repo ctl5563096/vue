@@ -18,8 +18,8 @@ const updateUserInfo=(params)=>{
 }
 
 // 获权限菜单
-const getMenuById=(params)=>{
-    return get('/menu',params)
+const getMenuById=(id)=>{
+    return get('/menu?id='+id)
 }
 
 // 根据角色ID获取权限
@@ -33,7 +33,7 @@ const getRole=(params)=>{
 }
 
 // 获取所有权限信息
-const getRule=(params)=>{
+const getRuleBack=(params)=>{
     return get('/rule')
 }
 
@@ -62,4 +62,4 @@ const editRule=(params)=>{
     return put('/editRule',params);
 }
 
-export{getHome,getUserInfo,updateUserInfo,getMenuById,getRule,getRole,getRuleByRole,changeRoleRule,delRule,addRule,getRuleDetail,editRule}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+export{getHome,getUserInfo,updateUserInfo,getMenuById,getRuleBack,getRole,getRuleByRole,changeRoleRule,delRule,addRule,getRuleDetail,editRule}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
