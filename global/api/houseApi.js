@@ -8,4 +8,18 @@ const getHouseList=(params)=>{
     return get('/house',params)    
 }
 
-export{getHouseList}
+// 新增房屋接口
+const addHouse=(params)=>{
+    return post('/house',params)
+}
+
+// 获取房屋详情
+const getHouseById=(id)=>{
+    return get('/houseInfo?id=' + id)
+}
+
+// 修改房屋详情
+const updateHouseInfo=(params)=>{
+    return put('/house',params)
+}
+export{getHouseList,addHouse,getHouseById,updateHouseInfo}

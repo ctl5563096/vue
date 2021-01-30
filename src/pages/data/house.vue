@@ -132,13 +132,22 @@
       prop="add_time">
     </el-table-column>
     <el-table-column
-      label="查看">
+      label="查看出租情况">
     <template slot-scope="scope">
         <el-button
-          size="medium"
+          size="small"
           type="success"
-          @click="detail(scope.$index, scope.row)">查看出租情况</el-button>
+          @click="goHouseDetail(scope.$index, scope.row)">查看出租情况</el-button>
       </template>
+    </el-table-column>
+      <el-table-column
+      label="编辑">
+      <template slot-scope="scope_id">
+        <el-button
+          size="small"
+          type="primary"
+          @click="detail(scope_id.$index, scope_id.row)">编辑房屋信息</el-button>
+    </template>
     </el-table-column>
   </el-table>
   <div id="footer">
@@ -157,15 +166,135 @@
   <el-dialog :title="form_title" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="房屋名称" label-width="150px">
-          <el-input v-model="form.house_name" autocomplete="off"></el-input>
+          <el-col :span="8">
+              <el-input v-model="form.house_name" autocomplete="off"></el-input>
+          </el-col>
         </el-form-item>
         <el-form-item label="房屋地址" label-width="150px">
-          <el-input v-model="form.address" autocomplete="off"></el-input>
+          <el-col :span="8">
+              <el-input v-model="form.address" autocomplete="off"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="负责人" label-width="150px">
+          <el-col :span="8">
+        <el-select
+          v-model="form.charger"
+          collapse-tags
+          @change="changeCharger"
+          placeholder="请选择">
+        <el-option
+            v-for="item in options" 
+            :key="item.id"
+            :label="item.user_name"
+            :value="item.id">
+        </el-option>
+        </el-select>
+        </el-col>
+        </el-form-item>
+        <el-form-item label="房间数" label-width="150px">
+          <el-col :span="8">
+            <el-input v-model="form.room_num" autocomplete="off"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="面积数（平方）" label-width="150px">
+          <el-col :span="8">
+            <el-input v-model="form.size" autocomplete="off"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="出租情况" label-width="150px">
+          <el-col :span="8">
+        <el-select
+          v-model="form.is_all"
+          collapse-tags
+          placeholder="请选择">
+        <el-option
+            v-for="item in options_house_cus" 
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+        </el-option>
+        </el-select>
+        </el-col>
+        </el-form-item>
+        <el-form-item label="建造时间" label-width="150px">
+            <el-date-picker
+              v-model="form.create_time"
+              type="date"
+              placeholder="选择建造时间">
+            </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button @click="cancelHouse">取 消</el-button>
+        <el-button type="primary" @click="submitHouseInfo">确 定</el-button>
+      </div>
+  </el-dialog>
+    <el-dialog :title="from_update" :visible.sync="dialogFormVisible">
+      <el-form :model="form_update">
+        <el-form-item label="房屋名称" label-width="150px">
+          <el-col :span="8">
+              <el-input v-model="form_update.house_name" autocomplete="off"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="房屋地址" label-width="150px">
+          <el-col :span="8">
+              <el-input v-model="form_update.address" autocomplete="off"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="负责人" label-width="150px">
+          <el-col :span="8">
+        <el-select
+          v-model="form_update.charger"
+          collapse-tags
+          @change="changeCharger"
+          placeholder="请选择">
+        <el-option
+            v-for="item in options" 
+            :key="item.id"
+            :label="item.user_name"
+            :value="item.id">
+        </el-option>
+        </el-select>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="房间数" label-width="150px">
+          <el-col :span="8">
+            <el-input v-model="form_update.room_num" autocomplete="off"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="面积数（平方）" label-width="150px">
+          <el-col :span="8">
+            <el-input v-model="form_update.size" autocomplete="off"></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="出租情况" label-width="150px">
+          <el-col :span="8">
+        <el-select
+          v-model="form_update.is_all"
+          collapse-tags
+          placeholder="请选择">
+        <el-option
+            v-for="item in options_house_cus" 
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+        </el-option>
+        </el-select>
+        </el-col>
+        </el-form-item>
+        <el-form-item label="建造时间" label-width="150px">
+          <el-col :span="8">
+            <el-date-picker
+              v-model="form_update.create_time"
+              type="date"
+              placeholder="选择建造时间">
+            </el-date-picker>
+          </el-col>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelHouse">取 消</el-button>
+        <el-button type="primary" @click="updateHouseInfo">确 定</el-button>
       </div>
   </el-dialog>
 </div>
@@ -173,7 +302,10 @@
 
 <script>
 import {
-getHouseList
+getHouseList,
+addHouse,
+getHouseById,
+updateHouseInfo
 } from '../../../global/api/houseApi.js';
 import {
 getUserList,
@@ -186,6 +318,7 @@ export default {
     data() {
         return {
             form_title:'新增房屋记录',
+            from_update:'修改房屋信息',
             dialogFormVisible:false,
             total:0,
             countPage:0,
@@ -214,15 +347,29 @@ export default {
               {id:1,name:'添加时间'},
               {id:2,name:'建造时间'}
             ],
+            options_house_cus:[
+              {id:1,name:'未租出'},
+              {id:2,name:'出租中'},
+              {id:3,name:'已出租'},
+            ],
             form: {
               house_name: '',
               address: '',
-              date1: '',
-              date2: '',
-              delivery: false,
-              type: [],
-              resource: '',
-              desc: ''
+              charger: '',
+              room_num: '',
+              size: '',
+              is_all: '',
+              create_time:''
+            },
+            form_update:{
+              house_name: '',
+              address: '',
+              charger: '',
+              room_num: '',
+              size: '',
+              is_all: '',
+              create_time:'',
+              id:0
             },
             formLabelWidth: '120px'
         };
@@ -263,9 +410,23 @@ export default {
             $this.countPage = Math.ceil(parseInt($this.totalCount) / parseInt($this.requestData.pageSize))
             })
         },
-        // 跳转出租详情
+        // 房屋详情
         detail(index,rows){
-            console.log(rows);
+            let id = rows.id
+            console.log(id);
+            getHouseById(id).then(res =>{
+              if(res.code == 200){
+                $this.dialogFormVisible = true
+                $this.form_update.id = id
+                $this.form_update.house_name = res.data.house_name
+                $this.form_update.address = res.data.address
+                $this.form_update.charger = res.data.charger
+                $this.form_update.room_num = res.data.room_num
+                $this.form_update.size = res.data.size
+                $this.form_update.is_all = res.data.is_all
+                $this.form_update.create_time = res.data.create_time
+              }
+            })
         },
         // 重置表单
         resetForm(formName) {
@@ -292,6 +453,63 @@ export default {
               $this.form_title = '修改记录'
           }
           $this.dialogFormVisible = true
+        },
+        // 新增房屋信息
+        submitHouseInfo(){
+          addHouse($this.form).then(res =>{
+            if(res.code == 200){
+                $this.$message({
+                type: 'success',
+                message: '新增成功',
+                duration: 1500,
+                onClose : function(){
+                  $this.dialogFormVisible = false
+                  $this.getList()
+                  this.reload();
+                }
+              })
+            }else{
+                $this.$message({
+                type: 'error',
+                message: res.realMsg,
+                duration: 1500
+              })
+            }
+          })
+        },
+        // 取消键
+        cancelHouse(){
+          $this.dialogFormVisible = false
+          $this.form.house_name = ''
+          $this.form.address = ''
+          $this.form.charger = ''
+          $this.form.room_num = ''
+          $this.form.size = ''
+          $this.form.is_all = ''
+          $this.form.create_time = ''
+        },
+        // 前往房屋详情
+        goHouseDetail(index,row)
+        {
+
+        },
+        // 更新房屋详情
+        updateHouseInfo()
+        {
+          updateHouseInfo($this.form_update).then(res => {
+            if(res.code == 200){
+               $this.$message({
+                type: 'success',
+                message: '修改成功',
+                duration: 1500,
+                onClose : function(){
+                  $this.dialogFormVisible = false
+                  $this.getList()
+                  this.reload();
+                }
+              })
+            }
+          })
         }
     },
     components: {},
