@@ -491,7 +491,7 @@ export default {
         // 前往房屋详情
         goHouseDetail(index,row)
         {
-
+           this.$router.push({ path:'/homeDetail'  })
         },
         // 更新房屋详情
         updateHouseInfo()

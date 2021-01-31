@@ -8,6 +8,7 @@ import Personal from '@/components/personal'
 import Rule from '@/pages/role/role'
 import User from '@/pages/user/list'
 import House from '@/pages/data/house'
+import Home from '@/pages/data/Home'
 
 Vue.use(Router)
 
@@ -76,6 +77,14 @@ export default new Router({
         component: House,
         meta: {
           title : '房屋列表'
+        },
+      },
+      {
+        path: '/homeDetail',
+        name: 'home',
+        component: Home,
+        meta: {
+          title : '房屋详情'
         },
       },
       {
