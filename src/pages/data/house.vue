@@ -229,7 +229,7 @@
         <el-button type="primary" @click="submitHouseInfo">确 定</el-button>
       </div>
   </el-dialog>
-    <el-dialog :title="from_update" :visible.sync="dialogFormVisible">
+  <el-dialog :title="from_update" :visible.sync="dialogFormVisible">
       <el-form :model="form_update">
         <el-form-item label="房屋名称" label-width="150px">
           <el-col :span="8">
@@ -313,7 +313,7 @@ getChager
 } from '../../../global/api/userApi.js';
 var $this = this;
 export default {
-  name: 'user',
+  name: 'house',
   inject:['reload'],
     data() {
         return {

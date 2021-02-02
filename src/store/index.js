@@ -10,7 +10,8 @@ const stateInit = {
   userInfo:'',
   userId:'',
   loading:true,
-  menuLists:[] 
+  menuLists:[],
+  parameter:[]
 };
 //创建VueX对象
 const store = new Vuex.Store({
@@ -20,7 +21,8 @@ const store = new Vuex.Store({
     userInfo:'',
     userId:'',
     loading:true,
-    menuLists:[] 
+    menuLists:[],
+    parameter:[]
   },
   mutations: {
     // 改变state里面的值一定要通过mutations 不然不经过vuex的生命周期无法记录、
@@ -46,6 +48,10 @@ const store = new Vuex.Store({
     // 设置菜单
     setMenuLists(state,menuLists){
       state.menuLists = menuLists
+    },
+    // 设置系统参数
+    setParameter(state,parameter){
+      state.parameter = parameter
     }
   },
   plugins:[createPersistedState({ storage: window.sessionStorage })]

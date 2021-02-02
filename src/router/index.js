@@ -9,6 +9,7 @@ import Rule from '@/pages/role/role'
 import User from '@/pages/user/list'
 import House from '@/pages/data/house'
 import Home from '@/pages/data/Home'
+import Parameter from '@/pages/system/parameter'
 
 Vue.use(Router)
 
@@ -85,6 +86,14 @@ export default new Router({
         component: Home,
         meta: {
           title : '房屋详情'
+        },
+      },
+      {
+        path: '/parameter',
+        name: 'parameter',
+        component: Parameter,
+        meta: {
+          title : '系统参数'
         },
       },
       {

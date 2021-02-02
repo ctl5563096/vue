@@ -56,6 +56,7 @@
 import axios from "axios";
 import { Message } from 'element-ui';
 import {getMenuById} from '../../global/api.js';
+import {getParameterInitList} from '../../global/api/systemApi.js';
 var $this = {};
 export default {
     data() {
@@ -88,6 +89,10 @@ export default {
                 getMenuById(parseInt(this.$store.state.userId)).then(res => {
                     this.$store.commit('setMenuLists' ,res.data);
                 });
+                // 顺便请求系统参数到Vuex里面方便调用
+                getParameterInitList().then(res => {
+                   this.$store.commit('setParameter' ,res.data.list);
+                })
                 this.$message({
                 message  : '登录成功',
                 type     : "success",
