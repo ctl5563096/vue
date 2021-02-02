@@ -101,7 +101,7 @@
         </el-form-item>
         <el-form-item label="参数编码" label-width="150px">
           <el-col :span="8">
-              <el-input v-model="form.code" autocomplete="off"></el-input>
+              <el-input v-model="form.para_code" autocomplete="off"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="参数名" label-width="150px">
@@ -136,8 +136,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelHouse">取 消</el-button>
-        <el-button type="primary" @click="submitHouseInfo">确 定</el-button>
+        <el-button @click="cancelParameter">取 消</el-button>
+        <el-button type="primary" @click="submitParameterInfo">确 定</el-button>
       </div>
   </el-dialog>
   </div>
@@ -176,11 +176,11 @@ export default {
         ],
         form:{
             name:'',
-            code:'',
+            para_code:'',
             para_name:'',
             para_value:'',
             is_enabled:'',
-            sort:''
+            weight:''
         }
       };
     },
@@ -244,13 +244,21 @@ export default {
             getParameterDetail(row.id).then(res => {
                 if(res.code == 200){
                     $this.form.name = res.data.name
-                    $this.form.code = res.data.code
+                    $this.form.para_code = res.data.para_code
                     $this.form.para_name = res.data.para_name
                     $this.form.para_value = res.data.para_value
                     $this.form.is_enabled = res.data.is_enabled
-                    $this.form.sort = res.data.sort
+                    $this.form.weight = res.data.weight
                 }
             })
+        },
+        // 取消
+        cancelParameter(){
+
+        },
+        // 提交
+        submitParameterInfo(){
+
         }
     },
     components: {},
