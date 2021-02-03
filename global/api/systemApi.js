@@ -1,5 +1,4 @@
 import {post,get,deletes,put} from '../../global/fetch.js';
-import { type } from 'os';
 
 // 系统接口类
 
@@ -17,4 +16,14 @@ const getParameterInitList=()=>{
 const getParameterDetail=(id)=>{
     return get('/getParameterDetail?id=' + id)
 }
-export{getParameterList,getParameterInitList,getParameterDetail}
+
+// 修改参数
+const editParameter=(params)=>{
+    return put('/parameter',params)
+}
+
+// 新增参数
+const addParameter=(params)=>{
+    return post('/parameter',params)
+}
+export{getParameterList,getParameterInitList,getParameterDetail,editParameter,addParameter}
