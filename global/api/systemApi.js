@@ -26,4 +26,9 @@ const editParameter=(params)=>{
 const addParameter=(params)=>{
     return post('/parameter',params)
 }
-export{getParameterList,getParameterInitList,getParameterDetail,editParameter,addParameter}
+
+// 删除参数
+const deleteParameter=(id)=>{
+    return deletes('/parameter?id=' + id)
+}
+export{getParameterList,getParameterInitList,getParameterDetail,editParameter,addParameter,deleteParameter}

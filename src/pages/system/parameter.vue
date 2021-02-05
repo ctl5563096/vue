@@ -90,8 +90,6 @@
   :total="total">
   </el-pagination>                                   
   </div>
-
-
     <el-dialog :title="form_title" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="名称" label-width="150px">
@@ -197,7 +195,8 @@ import{
 getParameterList,
 getParameterDetail,
 editParameter,
-addParameter
+addParameter,
+deleteParameter
 } from '../../../global/api/systemApi.js';
 var $this = this;
 export default {
@@ -298,7 +297,18 @@ export default {
         },
         // 删除
         deleteData(index,row){
-            console.log('object :>> ', row);
+            deleteParameter(row.id).then(res => {
+              if(res.code == 200){
+                $this.$message({
+                        type: 'success',
+                        message: '删除成功',
+                        duration: 1500,
+                        onClose : function(){
+                        $this.getList()
+                        this.reload()}
+                })
+              }
+            })
         },
         // 编辑详情
         detail(index,row){
@@ -355,7 +365,14 @@ export default {
                         onClose : function(){
                         $this.dialogFormVisible2 = false
                         $this.getList()
-                        this.reload()}
+                        this.reload()
+                        $this.form_add.name = ''
+                        $this.form_add.para_code = ''
+                        $this.form_add.para_name = ''
+                        $this.form_add.para_value = ''
+                        $this.form_add.is_enabled = ''
+                        $this.form_add.weight = 0
+                        }
                     })
                 }
             })
