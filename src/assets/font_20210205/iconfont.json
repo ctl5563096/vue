@@ -1,0 +1,79 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6151033",
+      "name": "chart-area",
+      "font_class": "chart-area",
+      "unicode": "e78f",
+      "unicode_decimal": 59279
+    },
+    {
+      "icon_id": "6151034",
+      "name": "chart-line",
+      "font_class": "chart-line",
+      "unicode": "e790",
+      "unicode_decimal": 59280
+    },
+    {
+      "icon_id": "6151035",
+      "name": "chart-bar",
+      "font_class": "chart-bar",
+      "unicode": "e791",
+      "unicode_decimal": 59281
+    },
+    {
+      "icon_id": "6151036",
+      "name": "display-code",
+      "font_class": "display-code",
+      "unicode": "e792",
+      "unicode_decimal": 59282
+    },
+    {
+      "icon_id": "6151059",
+      "name": "aliwangwang",
+      "font_class": "aliwangwang",
+      "unicode": "e79d",
+      "unicode_decimal": 59293
+    },
+    {
+      "icon_id": "6151130",
+      "name": "folder-fill",
+      "font_class": "folder-fill",
+      "unicode": "e7c4",
+      "unicode_decimal": 59332
+    },
+    {
+      "icon_id": "6151149",
+      "name": "user-group-fill",
+      "font_class": "user-group-fill",
+      "unicode": "e7d3",
+      "unicode_decimal": 59347
+    },
+    {
+      "icon_id": "6151224",
+      "name": "wind-cry",
+      "font_class": "wind-cry",
+      "unicode": "e7f8",
+      "unicode_decimal": 59384
+    },
+    {
+      "icon_id": "6151225",
+      "name": "wind-smile",
+      "font_class": "wind-smile",
+      "unicode": "e7f9",
+      "unicode_decimal": 59385
+    },
+    {
+      "icon_id": "6151228",
+      "name": "lock",
+      "font_class": "lock",
+      "unicode": "e7fb",
+      "unicode_decimal": 59387
+    }
+  ]
+}

@@ -9,6 +9,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueWechatTitle from 'vue-wechat-title';
 import store from './store/index'
 
+// 引入阿里字体图标
+import './assets/font_20210205/iconfont.css'
+
 // console.log(globalAPI);
 
 // 引用elementUi

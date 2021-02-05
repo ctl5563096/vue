@@ -6,10 +6,15 @@
 }
 
 section{
+  padding: 0px;
   height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.el-header{
+  padding: 0px;
 }
 
 .headerLogo,.logo{

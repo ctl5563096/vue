@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .el-main {
   background-color: #f5f7f9;
 }
@@ -18,7 +18,7 @@
  <template>
   <el-container>
     <!-- header部分 -->
-    <el-header>
+    <el-header style="padding:0px">
       <navtop></navtop>
     </el-header>
     <el-container>
