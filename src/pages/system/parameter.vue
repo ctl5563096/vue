@@ -268,9 +268,9 @@ export default {
                     }else{
                         val.is_enabled = '已启用'
                     }
-                },{
-                    page:this.requestData.page
-                })
+                    },{
+                      page:this.requestData.page
+                    })
                     $this.tableData = res.data.list
                     $this.countPage = Math.ceil(parseInt($this.totalCount) / parseInt($this.requestData.pageSize))
                 }

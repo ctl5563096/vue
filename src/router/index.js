@@ -10,6 +10,7 @@ import User from '@/pages/user/list'
 import House from '@/pages/data/house'
 import Home from '@/pages/data/Home'
 import Parameter from '@/pages/system/parameter'
+import homeCustomer from '@/pages/customer/home'
 
 Vue.use(Router)
 
@@ -94,6 +95,14 @@ export default new Router({
         component: Parameter,
         meta: {
           title : '系统参数'
+        },
+      },
+      {
+        path: '/customer/home',
+        name: 'homeCustomer',
+        component: homeCustomer,
+        meta: {
+          title : '租客列表'
         },
       },
       {

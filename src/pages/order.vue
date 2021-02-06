@@ -8,6 +8,20 @@
 
 <script>
 export default {
-  name: 'User'
+  name: 'User',
+  inject:['reload'],
+  data () {
+      return {
+      };
+  },
+  computed: {},
+  created(){
+  },
+  methods:{
+  },
+  components: {},
+  beforeCreate() {
+      $this = this;
+  },
 }
 </script>
