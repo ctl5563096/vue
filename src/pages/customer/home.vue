@@ -1,7 +1,31 @@
- <style>
+<style>
 </style>
 <template>
     <div id="homeCustomer">
+      <el-form :inline="true" :rules="rules" :model="requestData" ref="requestData" class="demo-form-inline">
+        <el-form-item label="关键字" prop="keywords">
+            <el-input v-model="requestData.keywords" placeholder="姓名/手机号码/身份证号码"></el-input>
+        </el-form-item>
+        <el-form-item label="是否启用" prop="origin">
+          <el-select
+          v-model="requestData.origin"
+          collapse-tags
+          @change="changeOrigin"
+          style="margin-left: 20px;"
+          placeholder="请选择">
+          <el-option
+          v-for="item in options_params_origin" 
+          :key="item.para_value"
+          :label="item.para_name"
+          :value="item.para_value">
+          </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="getList">查询</el-button>
+          <el-button @click="resetForm('requestData')">重置</el-button>
+        </el-form-item>
+        </el-form>
         <el-table
         :data="tableData"
         stripe
@@ -72,7 +96,12 @@ export default {
             requestData:{
                 page:1,
                 pageSize:10,
-                keywords:''
+                keywords:'',
+                origin:''
+            },
+            rules: {
+              keywords: [],
+              origin: []
             },
             tableData:[],
             totalCount:0,
@@ -95,6 +124,7 @@ export default {
             let page = $this.requestData.page
             let pageSize = $this.requestData.pageSize
             let keywords = $this.requestData.keywords
+            let origin = $this.requestData.origin
             getHomeCustomer(page,pageSize,keywords).then(res => {
                 if(res.code == 200){
                     $this.total = res.data.count
@@ -108,7 +138,16 @@ export default {
                     $this.countPage = Math.ceil(parseInt($this.totalCount) / parseInt($this.requestData.pageSize))
                 }
             })
-        }
+        },
+        // 重置表单
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+            $this.getList()
+        },
+        //下拉框change事件
+        changeOrigin(){
+          $this.getList();
+        },
     },
     components: {},
     beforeCreate() {
