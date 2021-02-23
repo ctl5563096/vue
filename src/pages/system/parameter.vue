@@ -90,7 +90,7 @@
   :total="total">
   </el-pagination>                                   
   </div>
-    <el-dialog :title="form_title" :visible.sync="dialogFormVisible">
+  <el-dialog :title="form_title" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="名称" label-width="150px">
           <el-col :span="8">
@@ -139,7 +139,7 @@
       </div>
   </el-dialog>
 
-        <el-dialog :title="form_insert" :visible.sync="dialogFormVisible2">
+  <el-dialog :title="form_insert" :visible.sync="dialogFormVisible2">
       <el-form :model="form_add">
         <el-form-item label="名称" label-width="150px">
           <el-col :span="8">

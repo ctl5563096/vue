@@ -36,7 +36,7 @@ section{
 <template>
   <el-container>
     <el-aside width="auto" class="header-logo tap" >
-      <h1 class="logo" style="width:200px;font-size: 2em;color:white;text-align:center">后台系统</h1>
+      <h1 class="logo" style="width:200px;font-size: 2em;color:white;text-align:center">CRM系统</h1>
         <el-menu 
     :default-active="activeIndex" 
     class="el-menu-header" 
@@ -48,8 +48,8 @@ section{
   >
   <el-menu-item index="1" @click="goTo('personalCenter')">个人中心</el-menu-item>
   <el-submenu index="2">
-      <template slot="title">控制台</template>
-      <el-menu-item index="2-1">选项1</el-menu-item>
+      <template slot="title">其他选项</template>
+      <el-menu-item index="2-1">返回首页</el-menu-item>
       <el-menu-item index="2-2">选项2</el-menu-item>
       <el-menu-item index="2-3">选项3</el-menu-item>
   </el-submenu>
