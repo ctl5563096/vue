@@ -49,7 +49,7 @@ section{
   <el-menu-item index="1" @click="goTo('personalCenter')">个人中心</el-menu-item>
   <el-submenu index="2">
       <template slot="title">其他选项</template>
-      <el-menu-item index="2-1">返回首页</el-menu-item>
+      <el-menu-item index="2-1" @click="goTo('index')">返回首页</el-menu-item>
       <el-menu-item index="2-2">选项2</el-menu-item>
       <el-menu-item index="2-3">选项3</el-menu-item>
   </el-submenu>
@@ -86,8 +86,10 @@ export default {
     goTo(goal){
       if (goal === "personalCenter") {
         $this.$router.push("personal").catch(error => error);
-      } else if ((goal = "order")) {
+      } else if ((goal === "order")) {
         $this.$router.push("order").catch(error => error);
+      } else if (goal === "index"){
+        $this.$router.push("index").catch(error => error);
       }
     },
     // 登出系统

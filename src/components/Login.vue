@@ -34,7 +34,7 @@
 <template>
   <div id="login_wrap">
     <el-form id="login_form" label-position="right">
-      <h2 id="title"> 后台登录系统 </h2>
+      <h2 id="title"> CRM登录系统 </h2>
       <el-form-item label="账号" style="margin-top: 50px">
         <el-input v-model="user.username" placeholder="请输入账号"></el-input>
       </el-form-item>

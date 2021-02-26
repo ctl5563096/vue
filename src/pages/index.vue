@@ -22,7 +22,7 @@
 <template>
   <div id="user">
     <div id='header'>
-      <el-col :span="12" :offset="6">
+    <el-col :span="12" :offset="6">
     <el-carousel indicator-position="outside">
     <el-carousel-item v-for="item in 4" :key="item">
       <h3>{{ item }}</h3>
@@ -35,6 +35,6 @@
 
 <script>
 export default {
-  name: 'user'
+  name: 'index'
 }
 </script>

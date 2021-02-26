@@ -27,7 +27,7 @@ export default new Router({
     },
     {
       path: '/home',
-      name: '',
+      name: 'index',
       component: () => import('../pages/Home.vue'),
       meta: {
         title : '主页'
@@ -103,6 +103,14 @@ export default new Router({
         component: homeCustomer,
         meta: {
           title : '租客列表'
+        },
+      },
+      {
+        path: '/homeList',
+        name: 'Home',
+        component: Home,
+        meta: {
+          title : '房间数据'
         },
       },
       {
