@@ -11,6 +11,7 @@ import House from '@/pages/data/house'
 import Home from '@/pages/data/Home'
 import Parameter from '@/pages/system/parameter'
 import homeCustomer from '@/pages/customer/home'
+import Carousel from '@/pages/system/carousel'
 
 Vue.use(Router)
 
@@ -111,6 +112,14 @@ export default new Router({
         component: Home,
         meta: {
           title : '房间数据'
+        },
+      },
+      {
+        path: '/carousel',
+        name: 'Carousel',
+        component: Carousel,
+        meta: {
+          title : '首页轮播图'
         },
       },
       {

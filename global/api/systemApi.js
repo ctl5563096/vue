@@ -31,4 +31,10 @@ const addParameter=(params)=>{
 const deleteParameter=(id)=>{
     return deletes('/parameter?id=' + id)
 }
-export{getParameterList,getParameterInitList,getParameterDetail,editParameter,addParameter,deleteParameter}
+
+// 获取轮播图列表
+const getCarousel=(page,pageSize)=>{
+    return get('/carousel?page=' + page + '&pageSize=' + pageSize)
+}
+
+export{getParameterList,getParameterInitList,getParameterDetail,editParameter,addParameter,deleteParameter,getCarousel}

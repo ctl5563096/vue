@@ -7,6 +7,7 @@
 </template>
 
 <script>
+var $this = this;
 export default {
   name: 'User',
   inject:['reload'],
