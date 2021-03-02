@@ -37,4 +37,9 @@ const getCarousel=(page,pageSize)=>{
     return get('/carousel?page=' + page + '&pageSize=' + pageSize)
 }
 
-export{getParameterList,getParameterInitList,getParameterDetail,editParameter,addParameter,deleteParameter,getCarousel}
+// 获取轮播图详细信息
+const getCarouselInfo=(id)=>{
+    return get('/carouselInfo?id=' + id);
+}
+
+export{getParameterList,getParameterInitList,getParameterDetail,editParameter,addParameter,deleteParameter,getCarousel,getCarouselInfo}
