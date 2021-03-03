@@ -42,4 +42,16 @@ const getCarouselInfo=(id)=>{
     return get('/carouselInfo?id=' + id);
 }
 
-export{getParameterList,getParameterInitList,getParameterDetail,editParameter,addParameter,deleteParameter,getCarousel,getCarouselInfo}
+// 更新轮播图详细信息
+const updateCarouselInfo=(params)=>{
+    return put('/carousel',params);
+}
+
+// 新增轮播图
+const addCarousel=(params)=>{
+    return post('/carousel',params);
+}
+
+export{getParameterList,getParameterInitList,getParameterDetail,editParameter,addParameter,deleteParameter,getCarousel,getCarouselInfo,
+    updateCarouselInfo,
+    addCarousel}

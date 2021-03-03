@@ -33,7 +33,7 @@
   <div class="avatar_div">
         <el-upload
             class="avatar-uploader"
-            action="http://localhost/upload"
+            :action="action"
             :headers="token"
             :data='dataList'
             :show-file-list="false"
@@ -96,6 +96,7 @@ export default {
       circleUrl: $this.globalBaseUrl + '/' + JSON.parse(this.$store.state.userInfo) .avatar,
       count:0,
       loading:false,
+      action:'',
       form: {
           username: '',
           password: '',
@@ -145,6 +146,7 @@ export default {
     $this = this;
   },
   created(){
+    $this.action = $this.globalBaseUrl + '/' + 'upload'
     getUserInfo(this.$store.state.userId).then(res => {
       $this.id = res.data.id
       $this.form.username = res.data.user_name
