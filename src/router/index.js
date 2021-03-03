@@ -99,7 +99,7 @@ export default new Router({
         },
       },
       {
-        path: '/customer/home',
+        path: '/customerHome',
         name: 'homeCustomer',
         component: homeCustomer,
         meta: {

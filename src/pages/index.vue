@@ -18,14 +18,20 @@
   .header{
     width: 50%;
   }
+
+  .el-image{
+    width: 100%;height: 100%;
+  }
 </style>
 <template>
   <div id="user">
     <div id='header'>
     <el-col :span="12" :offset="6">
     <el-carousel indicator-position="outside">
-    <el-carousel-item v-for="item in 4" :key="item">
-      <h3>{{ item }}</h3>
+    <el-carousel-item v-for="(item,index) in carouselList" :key="index">
+      <div style="width: 100%;height: 100%;">
+        <el-image :src="item.image_url"></el-image>
+      </div>
     </el-carousel-item>
     </el-carousel>
     </el-col>
@@ -34,7 +40,38 @@
 </template>
 
 <script>
+import {
+  getCarouselList
+} from '../../global/api.js';
+var $this = {};
 export default {
-  name: 'index'
+  name: 'index',
+  inject:['reload'],
+  data(){
+    return{
+      carouselList:{}
+    }
+  },
+  created(){
+      // 初始化获取轮播图列表
+      $this.getList()
+  },
+  methods:{
+    getList(){
+      getCarouselList().then(res => {
+        if(res.code == 200){
+          res.data.map(function(val,key){
+              // 序号
+              val.image_url = $this.globalBaseUrl + '/' + val.image_url
+          })
+          $this.carouselList = res.data
+        }
+      })
+    }
+  },
+  components: {},
+  beforeCreate() {
+      $this = this;
+  },
 }
 </script>

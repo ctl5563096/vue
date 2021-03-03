@@ -335,7 +335,7 @@ export default {
                     message  : '修改成功',
                     type     : "success"
                 })
-                $this.cancelCarousel();
+                $this.dialogFormVisible = false
               }
           })
       },
@@ -358,6 +358,7 @@ export default {
     handleAvatarSuccess(res, file) {
         if(res.code === 200){
             $this.image_url = $this.globalBaseUrl + '/' + res.data.url
+            $this.form.image_url = res.data.url
         }
     },
     // 打开添加窗口
