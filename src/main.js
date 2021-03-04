@@ -7,7 +7,8 @@ import globalAPI  from '../global/global';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueWechatTitle from 'vue-wechat-title';
-import store from './store/index'
+import store from './store/index';
+import HighchartsVue from 'highcharts-vue'
 
 // 引入阿里字体图标
 import './assets/font_20210205/iconfont.css'
@@ -18,6 +19,7 @@ import './assets/font_20210205/iconfont.css'
 Vue.use(ElementUI,{ size: 'small', zIndex:  3000 })
 // 引用自定义标题
 Vue.use(VueWechatTitle)
+Vue.use(HighchartsVue)
 
 // 全局自定义常量
 Vue.prototype.globalBaseUrl = globalAPI.apiBaseUrl;
