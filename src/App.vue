@@ -6,6 +6,9 @@
 </template>
 
 <script>
+import{
+  bindClient
+} from '../global/api.js';
 export default {
   name: 'app',
   provide () {
@@ -30,7 +33,7 @@ export default {
       })
     },
     initWebSocket(){
-      const wsuri = "ws://127.0.0.1:8384";
+      const wsuri = "ws://120.78.13.233:8384";
       this.webSocket = new WebSocket(wsuri);
       this.webSocket.onmessage = this.websocketonmessage;
       this.webSocket.onopen = this.websocketonopen;
@@ -38,16 +41,22 @@ export default {
       this.webSocket.onclose = this.websocketclose;
     },
     websocketonopen(e){ //连接建立之后执行send方法发送数据
-        console.log(e);
         let actions = {"test":"12345"};
         this.websocketsend(JSON.stringify(actions));
-        // 连接上之后
       },
       websocketonerror(){//连接建立失败重连
         this.initWebSocket();
       },
       websocketonmessage(e){ //数据接收
         console.log(e.data);
+        let obj =  JSON.parse(e.data);
+        switch (obj.type) {
+          // 链接成功需要把client_id发送到web端去进行绑定
+          case "onConnect":
+              bindClient(obj.to_client_id)
+            break;
+        } 
+
       },
       websocketsend(Data){//数据发送
         this.webSocket.send(Data);
