@@ -67,4 +67,11 @@ const getCarouselList=()=>{
     return get('/carouselIndex')
 }
 
-export{getHome,getUserInfo,updateUserInfo,getMenuById,getRuleBack,getRole,getRuleByRole,changeRoleRule,delRule,addRule,getRuleDetail,editRule,getCarouselList}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+// 退出登录
+const logout=()=>{
+    return post('/logout')
+}
+
+export{getHome,getUserInfo,updateUserInfo,getMenuById,getRuleBack,getRole,getRuleByRole,changeRoleRule,delRule,addRule,getRuleDetail,editRule,getCarouselList,
+    logout,
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             

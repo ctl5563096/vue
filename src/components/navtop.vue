@@ -67,6 +67,7 @@ section{
 </template>
 
 <script>
+import {logout} from '../../global/api.js';
 var $this = {};
 export default {
   data() {
@@ -94,6 +95,15 @@ export default {
     },
     // 登出系统
     logout(){
+      // 调取后端接口 删除缓存里面的权限和token过期时间
+      logout().then(res => {
+        // 调取接口成功之后才删除vuex
+        if(res.code == 200){
+          $this.delStore()
+        }
+      })
+    },
+    delStore(){
       this.$store.commit('reset');
     },
     handleCommand(command){
