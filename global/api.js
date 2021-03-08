@@ -73,8 +73,8 @@ const logout=()=>{
 }
 
 // 绑定$client_uid
-const bindClient=(client_id)=>{
-    return get('/bind?client_id=' + client_id)
+const bindClient=(client_id,user_id)=>{
+    return get('/bind?client_id=' + client_id + '&user_id=' + user_id)
 }
 
 export{getHome,getUserInfo,updateUserInfo,getMenuById,getRuleBack,getRole,getRuleByRole,changeRoleRule,delRule,addRule,getRuleDetail,editRule,getCarouselList,

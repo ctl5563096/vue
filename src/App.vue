@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { bindClient } from "../global/api.js";
+import { bindClient, logout } from "../global/api.js";
 export default {
   name: "app",
   provide() {
@@ -52,10 +52,27 @@ export default {
       switch (obj.type) {
         // 链接成功需要把client_id发送到web端去进行绑定
         case "onConnect":
-          bindClient(obj.to_client_id);
+          bindClient(obj.to_client_id, this.$store.state.userId).then((res) => {
+            if (res.data.status != 200) {
+              this.$message({
+                message: res.data.msg,
+                type: "error",
+                duration: 1500,
+              });
+            }
+          });
           break;
+        // 主动退出系统
         case "onClose":
-          console.log(obj.content);
+          // 主动断开
+          this.webSocket.close();
+          // 调取后端接口 删除缓存里面的权限和token过期时间
+          logout().then((res) => {
+            // 调取接口成功之后才删除vuex
+            if (res.code == 200) {
+              this.delStore();
+            }
+          });
           break;
       }
     },
@@ -66,6 +83,12 @@ export default {
     websocketclose(e) {
       //关闭
       console.log("断开连接", e);
+    },
+    // 清空vuex
+    delStore() {
+      this.$store.commit("reset");
+      // 断开之后跳转到登录页面
+      this.$router.push("/login").catch((error) => error);
     },
   },
   // 监听,当路由发生变化的时候执行
