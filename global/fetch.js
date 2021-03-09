@@ -15,6 +15,11 @@ const service = axios.create({
 
 // 请求发起前的拦截处理
 service.interceptors.request.use(config => {
+  console.log(config);
+  // 如果是发送短信不需要过拦截器
+  if(config.url === '/sendSmsCode'){
+    return config; 
+  }
   // 刷新页面会把store里面的token刷掉
   const token = store.state.token;
   //  看是否携带token值去请求 

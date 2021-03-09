@@ -50,12 +50,30 @@
         </el-button>
       </el-form-item>
     </el-form>
+    <el-dialog
+      title="手机验证码"
+      :visible.sync="dialogVisible"
+      width="30%">
+    <el-form id="code_form">
+      <el-form-item label="">
+        <el-input v-model="code_form.code" placeholder="请输入手机验证码"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="sendSms" :loading="button_send">
+          点击获取手机验证码
+        </el-button>
+        <el-button @click="validateCode" :loading="button_send">
+          确定
+        </el-button>
+      </el-form-item>
+    </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
 import axios from "axios";
 import { Message } from 'element-ui';
-import {getMenuById} from '../../global/api.js';
+import {getMenuById,sendSmsCode} from '../../global/api.js';
 import {getParameterInitList} from '../../global/api/systemApi.js';
 var $this = {};
 export default {
@@ -65,7 +83,13 @@ export default {
           username: '',
           password: '',
         },
-        button:false
+        code_form: {
+          code: '',
+        },
+        button:false,
+        dialogVisible:false,
+        button_send:false,
+        phone_num:''
       }
     },
     beforeCreate() {
@@ -81,29 +105,42 @@ export default {
           (data) => {
               // 登录成功将token存储到vuex 方便全局调用
               if (data.data.code === 200){
-                // 存储token
-                this.$store.commit('setToken',data.data.data.token)
-                // 存储用户信息
-                this.$store.commit('setUserInfo',data.data.data.userInfo)
-                // 顺便把菜单栏的请求到Vuex里面方便调用
-                getMenuById(parseInt(this.$store.state.userId)).then(res => {
-                    this.$store.commit('setMenuLists' ,res.data);
-                });
-                // 顺便请求系统参数到Vuex里面方便调用
-                getParameterInitList().then(res => {
-                   this.$store.commit('setParameter' ,res.data.list);
-                })
-                this.$message({
-                message  : '登录成功',
-                type     : "success",
-                duration : 1500,
-                onClose: function (){
-                  $this.button = false
-                  $this.$router.push('index').catch(err => {
-                    console.log(err);
+                if(data.data.data.status == 423){
+                  this.$message({
+                    message  : '请验证验证码再登录',
+                    showClose: true,
+                    duration : 1000,
+                    onClose: function (){
+                      $this.dialogVisible = true
+                      $this.phone_num = data.data.data.phone_num
+                      $this.button_send = false
+                    }
+                  })
+                }else{
+                  // 存储token
+                  this.$store.commit('setToken',data.data.data.token)
+                  // 存储用户信息
+                  this.$store.commit('setUserInfo',data.data.data.userInfo)
+                  // 顺便把菜单栏的请求到Vuex里面方便调用
+                  getMenuById(parseInt(this.$store.state.userId)).then(res => {
+                      this.$store.commit('setMenuLists' ,res.data);
                   });
+                  // 顺便请求系统参数到Vuex里面方便调用
+                  getParameterInitList().then(res => {
+                    this.$store.commit('setParameter' ,res.data.list);
+                  })
+                  this.$message({
+                    message  : '登录成功',
+                    type     : "success",
+                    duration : 1500,
+                    onClose: function (){
+                    $this.button = false
+                    $this.$router.push('index').catch(err => {
+                        console.log(err);
+                      });
+                    }
+                  })
                 }
-               })
               }else {
                this.$message({
                  message  : data.data.msg,
@@ -116,7 +153,23 @@ export default {
         )
       },
       doResgiter() {
-        this.$message.success('注册')
+        this.$message.success('暂时不开放注册功能,如果需要浏览功能请联系chentulinys@163.com')
+      },
+      // 获取验证验证手机
+      sendSms() {
+        sendSmsCode({'phone_num':this.phone_num}).then(res => {
+          this.button_send = true
+          if(res.data.smsStatus == 200){
+              this.dialogVisible = false
+              this.button_send = true
+            }else{
+              this.button_send = true
+            }
+          })
+      },
+      // 验证手机验证码
+      validateCode(){
+
       }
     }
   }

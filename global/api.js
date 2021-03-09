@@ -77,7 +77,13 @@ const bindClient=(client_id,user_id)=>{
     return get('/bind?client_id=' + client_id + '&user_id=' + user_id)
 }
 
+// 获取验证码
+const sendSmsCode=(phone_num)=>{
+    return post('/sendSmsCode',phone_num )
+}
+
 export{getHome,getUserInfo,updateUserInfo,getMenuById,getRuleBack,getRole,getRuleByRole,changeRoleRule,delRule,addRule,getRuleDetail,editRule,getCarouselList,
     logout,
     bindClient,
+    sendSmsCode,
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
