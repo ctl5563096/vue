@@ -82,8 +82,13 @@ const sendSmsCode=(phone_num)=>{
     return post('/sendSmsCode',phone_num )
 }
 
+const validateCode=(code)=>{
+    return post('/validateCode',code)
+}
+
 export{getHome,getUserInfo,updateUserInfo,getMenuById,getRuleBack,getRole,getRuleByRole,changeRoleRule,delRule,addRule,getRuleDetail,editRule,getCarouselList,
     logout,
     bindClient,
     sendSmsCode,
+    validateCode
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             

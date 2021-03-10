@@ -66,7 +66,7 @@
     <el-dialog title="手机验证码" :visible.sync="dialogVisible" width="30%">
       <el-form id="code_form">
         <el-form-item label="">
-          <el-input v-model="code_form.code" placeholder="请输入手机验证码"></el-input>
+          <el-input v-model="user.code" placeholder="请输入手机验证码"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click="sendSms" :loading="button_send">
@@ -81,7 +81,7 @@
 <script>
 import axios from "axios";
 import { Message } from "element-ui";
-import { getMenuById, sendSmsCode } from "../../global/api.js";
+import { getMenuById, sendSmsCode, validateCode } from "../../global/api.js";
 import { getParameterInitList } from "../../global/api/systemApi.js";
 var $this = {};
 export default {
@@ -90,15 +90,16 @@ export default {
       user: {
         username: "",
         password: "",
+        code:""
       },
       code_form: {
-        code: "",
+        code: ""
       },
       button: false,
       dialogVisible: false,
       button_send: false,
       phone_num: "",
-      value: 20,
+      value: 60,
       timer: "",
       text: "点击获取手机验证码",
     };
@@ -113,19 +114,21 @@ export default {
         .post("http://localhost/login", {
           username: this.user.username,
           password: this.user.password,
+          code: this.user.code
         })
         .then((data) => {
           // 登录成功将token存储到vuex 方便全局调用
           if (data.data.code === 200) {
             if (data.data.data.status == 423) {
               this.$message({
-                message: "请验证验证码再登录",
+                message: "请填写正确的手机验证码",
                 showClose: true,
                 duration: 1000,
                 onClose: function () {
                   $this.dialogVisible = true;
                   $this.phone_num = data.data.data.phone_num;
                   $this.button_send = false;
+                  $this.button = false
                 },
               });
             } else {
@@ -180,7 +183,9 @@ export default {
       });
     },
     // 验证手机验证码
-    validateCode() {},
+    validateCode() {
+        this.dialogVisible = false
+    },
     // 定时器执行的方法
     disabledSendSms() {
       if (this.value === 0) {
